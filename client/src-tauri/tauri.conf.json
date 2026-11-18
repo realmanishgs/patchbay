@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "VST Gallery",
+  "productName": "Patchbay",
   "version": "0.1.0",
   "identifier": "dev.vstgallery.desktop",
   "build": {

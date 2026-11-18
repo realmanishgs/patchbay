@@ -1,4 +1,4 @@
-# VST Gallery
+# Patchbay
 
 An open-source gallery and silent updater for VST3 / CLAP / AU plugins.
 
@@ -36,7 +36,7 @@ Prerequisites: Node 20+, Rust stable (MSVC on Windows), and the Tauri v2 system 
 Set the catalog URL at build time, for example:
 
 ```powershell
-$env:VST_GALLERY_INDEX_URL = "https://<your-user>.github.io/<your-repo>/index.min.json"
+$env:patchbay_INDEX_URL = "https://<your-user>.github.io/<your-repo>/index.min.json"
 ```
 
 Without it, the app points at a reserved `.invalid` host and shows a "catalog request failed" message.

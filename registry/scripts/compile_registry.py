@@ -36,7 +36,7 @@ import aiohttp
 from jsonschema import Draft202012Validator
 
 GITHUB_API = "https://api.github.com"
-USER_AGENT = "vst-gallery-registry/1.0"
+USER_AGENT = "patchbay-registry/1.0"
 PLATFORMS = ("win_x64", "mac_universal", "linux_x64")
 SCHEMA_VERSION = 1
 MAX_CONCURRENCY = 6
@@ -369,7 +369,7 @@ async def compile_index(
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Compile VST Gallery plugin manifests into index.min.json.")
+    parser = argparse.ArgumentParser(description="Compile Patchbay plugin manifests into index.min.json.")
     parser.add_argument("--plugins", type=Path, default=Path("registry/plugins"))
     parser.add_argument("--schema", type=Path, default=Path("registry/schema/plugin.schema.json"))
     parser.add_argument("--out", type=Path, default=Path("dist"))

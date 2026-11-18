@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "VST Gallery plugin manifest",
+  "title": "Patchbay plugin manifest",
   "type": "object",
   "additionalProperties": false,
   "required": ["id", "name", "vendor", "category", "license", "open_source", "source", "install_strategy", "auth_type"],

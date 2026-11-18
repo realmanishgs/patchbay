@@ -127,11 +127,11 @@ pub fn target_dir(db: &Db, format: &str) -> Result<PathBuf, String> {
 
 fn portable_root() -> Result<PathBuf, String> {
     let base = if cfg!(target_os = "windows") {
-        dirs::data_local_dir().map(|d| d.join("VST Gallery").join("Apps"))
+        dirs::data_local_dir().map(|d| d.join("Patchbay").join("Apps"))
     } else if cfg!(target_os = "macos") {
         dirs::home_dir().map(|h| h.join("Applications"))
     } else {
-        dirs::home_dir().map(|h| h.join(".local").join("share").join("vst-gallery").join("apps"))
+        dirs::home_dir().map(|h| h.join(".local").join("share").join("patchbay").join("apps"))
     };
     base.ok_or_else(|| "no user data folder available".to_string())
 }
@@ -150,7 +150,7 @@ impl WorkDir {
             .filter(|c| c.is_ascii_alphanumeric() || *c == '-')
             .collect();
         let path = std::env::temp_dir().join(format!(
-            "vst-gallery-{safe}-{}-{nanos}",
+            "patchbay-{safe}-{}-{nanos}",
             std::process::id()
         ));
         fs::create_dir_all(&path).map_err(|e| format!("cannot create temp folder: {e}"))?;
@@ -250,7 +250,7 @@ fn io_msg(e: io::Error) -> String {
 fn access_error(e: io::Error, dir: &Path) -> String {
     if e.kind() == io::ErrorKind::PermissionDenied {
         format!(
-            "permission denied at {} - run VST Gallery with administrator rights or choose a writable folder in Settings",
+            "permission denied at {} - run Patchbay with administrator rights or choose a writable folder in Settings",
             dir.display()
         )
     } else {
@@ -737,7 +737,7 @@ fn elevated_place(src: &Path, dir: &Path, name: &OsStr) -> Result<PathBuf, Strin
         nm = lit(Path::new(name)),
     );
     let script_path = std::env::temp_dir().join(format!(
-        "vst-gallery-place-{}-{}.ps1",
+        "patchbay-place-{}-{}.ps1",
         std::process::id(),
         now_unix()
     ));

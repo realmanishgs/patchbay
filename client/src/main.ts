@@ -92,7 +92,7 @@ function mountShell(): void {
       <header class="flex flex-wrap items-center gap-3">
         <div class="flex items-center gap-2">
           <span class="h-2.5 w-2.5 rounded-full bg-violet-500"></span>
-          <h1 class="text-lg font-semibold tracking-tight">VST Gallery</h1>
+          <h1 class="text-lg font-semibold tracking-tight">Patchbay</h1>
         </div>
         <input id="search" type="search" autocomplete="off" spellcheck="false"
           placeholder="Search plugins…" class="field min-w-0 flex-1 sm:max-w-xs" />

@@ -1,8 +1,8 @@
 [package]
-name = "vst-gallery"
+name = "patchbay"
 version = "0.1.0"
 description = "Open-source VST3 / CLAP / AU gallery with a silent background updater"
-authors = ["VST Gallery contributors"]
+authors = ["Patchbay contributors"]
 license = "GPL-3.0-or-later"
 edition = "2021"
 rust-version = "1.77.2"

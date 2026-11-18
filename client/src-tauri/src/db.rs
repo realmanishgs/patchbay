@@ -6,7 +6,7 @@ use serde::Serialize;
 use std::path::Path;
 use std::sync::Mutex;
 
-const KEYRING_SERVICE: &str = "vst-gallery";
+const KEYRING_SERVICE: &str = "patchbay";
 
 const SCHEMA: &str = "
 CREATE TABLE IF NOT EXISTS installed_plugins (

@@ -1,5 +1,5 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
-//! VST Gallery desktop daemon.
+//! Patchbay desktop daemon.
 //!
 //! Runs as a tray-only process. The gallery WebView is created on demand and destroyed when
 //! its window closes, so idle memory stays at the tray + SQLite footprint.
@@ -24,10 +24,10 @@ use tauri::{
 };
 
 /// Where the static catalog is published. Defaults to the GitHub Pages site of the registry
-/// repo; override at compile time with `VST_GALLERY_INDEX_URL` (e.g. a jsDelivr mirror).
-pub const INDEX_URL: &str = match option_env!("VST_GALLERY_INDEX_URL") {
+/// repo; override at compile time with `patchbay_INDEX_URL` (e.g. a jsDelivr mirror).
+pub const INDEX_URL: &str = match option_env!("patchbay_INDEX_URL") {
     Some(url) => url,
-    None => "https://realmanishgs.github.io/vst-gallery/index.min.json",
+    None => "https://realmanishgs.github.io/patchbay/index.min.json",
 };
 
 const TRAY_ID: &str = "main";
@@ -106,9 +106,9 @@ pub fn refresh_tray(app: &AppHandle, pending: usize) {
         let _ = tray.set_icon(Some(icon));
     }
     let tooltip = if pending > 0 {
-        format!("VST Gallery - {pending} update(s) available")
+        format!("Patchbay - {pending} update(s) available")
     } else {
-        "VST Gallery".to_string()
+        "Patchbay".to_string()
     };
     let _ = tray.set_tooltip(Some(tooltip));
     if let Ok(menu) = build_menu(app, pending) {
@@ -125,7 +125,7 @@ fn open_gallery(app: &AppHandle) {
     }
     // No hide-on-close: closing the window destroys its WebView and frees its memory.
     let built = WebviewWindowBuilder::new(app, GALLERY_LABEL, WebviewUrl::App("index.html".into()))
-        .title("VST Gallery")
+        .title("Patchbay")
         .inner_size(1080.0, 720.0)
         .min_inner_size(760.0, 520.0)
         .center()
@@ -304,7 +304,7 @@ fn main() {
             std::fs::create_dir_all(&data_dir)?;
             let db = Db::open(&data_dir.join("gallery.sqlite3"))?;
             let http = reqwest::Client::builder()
-                .user_agent(concat!("vst-gallery/", env!("CARGO_PKG_VERSION")))
+                .user_agent(concat!("patchbay/", env!("CARGO_PKG_VERSION")))
                 .connect_timeout(Duration::from_secs(15))
                 .timeout(Duration::from_secs(120))
                 .build()?;
@@ -318,7 +318,7 @@ fn main() {
             let menu = build_menu(&handle, 0)?;
             TrayIconBuilder::with_id(TRAY_ID)
                 .icon(tray_icon_for(0)?)
-                .tooltip("VST Gallery")
+                .tooltip("Patchbay")
                 .menu(&menu)
                 .show_menu_on_left_click(false)
                 .on_menu_event(|app, event: MenuEvent| on_menu(app, event.id.as_ref()))
@@ -347,7 +347,7 @@ fn main() {
             clear_vendor_key
         ])
         .build(tauri::generate_context!())
-        .expect("error while building VST Gallery")
+        .expect("error while building Patchbay")
         .run(|_app, event| {
             // The app lives in the tray: keep running when the last window closes.
             if let RunEvent::ExitRequested { api, code, .. } = event {
