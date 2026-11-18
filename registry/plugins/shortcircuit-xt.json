@@ -1,0 +1,31 @@
+{
+  "$schema": "../schema/plugin.schema.json",
+  "id": "shortcircuit-xt",
+  "name": "Shortcircuit XT",
+  "vendor": "Surge Synth Team",
+  "category": "sampler",
+  "license": "MIT",
+  "open_source": true,
+  "homepage": "https://github.com/surge-synthesizer/shortcircuit-xt",
+  "description": "Multi-sample instrument with a deep modulation engine.",
+  "about": "A sampler from the Surge team that reads and writes SFZ and common sampler formats. It has multi-output routing, zones and layers, and a flexible modulation system.\n\nOnly a rolling Nightly release exists, so the catalog reads the version from the build date in the file name.",
+  "tags": ["sampler", "multisample", "nightly"],
+  "enabled": true,
+  "allow_prerelease": true,
+  "version_regex": "win64-(?P<version>[0-9]{4}-[0-9]{2}-[0-9]{2})",
+  "source": {
+    "github": "surge-synthesizer/shortcircuit-xt",
+    "asset_patterns": {
+      "win_x64": "shortcircuit-xt-win64-[0-9-]+-[0-9a-f]+\\.zip",
+      "mac_universal": "shortcircuit-xt-macOS-[0-9-]+-[0-9a-f]+\\.dmg",
+      "linux_x64": "shortcircuit-xt-linux-[0-9-]+-[0-9a-f]+\\.zip"
+    }
+  },
+  "install_strategy": "bundle_extract",
+  "silent_flags": null,
+  "auth_type": "none",
+  "auth": null,
+  "formats": ["vst3", "clap"],
+  "federated_feed_url": null,
+  "vendor_manifest_url": null
+}

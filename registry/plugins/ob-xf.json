@@ -1,0 +1,30 @@
+{
+  "$schema": "../schema/plugin.schema.json",
+  "id": "ob-xf",
+  "name": "OB-Xf",
+  "vendor": "Surge Synth Team",
+  "category": "synth",
+  "license": "GPL-3.0",
+  "open_source": true,
+  "homepage": "https://github.com/surge-synthesizer/OB-Xf",
+  "description": "Modernised continuation of the open-source OB-Xd.",
+  "about": "OB-Xf continues the last open-source OB-Xd release with a refreshed interface, new features and active development. It keeps the warm Oberheim OB-X character.\n\nOnly a rolling Nightly release exists, so the version comes from the build date.",
+  "tags": ["analog", "oberheim", "poly", "nightly"],
+  "enabled": true,
+  "allow_prerelease": true,
+  "version_regex": "Windows-(?P<version>[0-9]{4}-[0-9]{2}-[0-9]{2})",
+  "source": {
+    "github": "surge-synthesizer/OB-Xf",
+    "asset_patterns": {
+      "win_x64": "ob-xf-Windows-[0-9-]+-[0-9a-f]+\\.zip",
+      "mac_universal": "ob-xf-macOS-[0-9-]+-[0-9a-f]+\\.dmg"
+    }
+  },
+  "install_strategy": "bundle_extract",
+  "silent_flags": null,
+  "auth_type": "none",
+  "auth": null,
+  "formats": ["vst3", "clap"],
+  "federated_feed_url": null,
+  "vendor_manifest_url": null
+}

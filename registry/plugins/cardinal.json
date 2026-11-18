@@ -1,0 +1,28 @@
+{
+  "$schema": "../schema/plugin.schema.json",
+  "id": "cardinal",
+  "name": "Cardinal",
+  "vendor": "DISTRHO",
+  "category": "synth",
+  "license": "GPL-3.0-or-later",
+  "open_source": true,
+  "homepage": "https://github.com/DISTRHO/Cardinal",
+  "description": "Virtual modular synthesizer plugin based on VCV Rack.",
+  "about": "Cardinal brings the VCV Rack module ecosystem into a plugin. Patch oscillators, filters, sequencers and effects with virtual cables, and run it inside any DAW as VST3 or CLAP.\n\nIt bundles a large set of open-source Rack modules and is a free way to try modular patching in a session.",
+  "tags": ["modular", "synth", "rack", "patching"],
+  "enabled": true,
+  "source": {
+    "github": "DISTRHO/Cardinal",
+    "asset_patterns": {
+      "win_x64": "Cardinal-win64-[0-9.]+\\.zip",
+      "linux_x64": "Cardinal-linux-x86_64-[0-9.]+\\.tar\\.gz"
+    }
+  },
+  "install_strategy": "bundle_extract",
+  "silent_flags": null,
+  "auth_type": "none",
+  "auth": null,
+  "formats": ["vst3", "clap"],
+  "federated_feed_url": null,
+  "vendor_manifest_url": null
+}

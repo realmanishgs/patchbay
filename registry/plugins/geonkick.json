@@ -1,0 +1,28 @@
+{
+  "$schema": "../schema/plugin.schema.json",
+  "id": "geonkick",
+  "name": "Geonkick",
+  "vendor": "Quamplex",
+  "category": "synth",
+  "license": "GPL-3.0",
+  "open_source": true,
+  "homepage": "https://github.com/Geonkick-Synthesizer/geonkick",
+  "description": "Percussion synthesizer for kicks, snares, claps and effects.",
+  "about": "Build drum sounds from layered oscillators, noise and filters with envelope control over each. It exports samples and works as a plugin.",
+  "tags": ["drums", "percussion", "synth"],
+  "enabled": true,
+  "source": {
+    "github": "Geonkick-Synthesizer/geonkick",
+    "asset_patterns": {
+      "win_x64": "GeonkickWindowsInstaller-v[0-9.]+-x86_64_basic\\.exe"
+    }
+  },
+  "install_strategy": "silent_installer",
+  "silent_flags": "/VERYSILENT /NORESTART /SUPPRESSMSGBOXES",
+  "auth_type": "none",
+  "auth": null,
+  "formats": ["vst3"],
+  "federated_feed_url": null,
+  "vendor_manifest_url": null,
+  "notes": "Windows installer type verified by signature before choosing silent flags."
+}

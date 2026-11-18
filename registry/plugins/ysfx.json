@@ -1,0 +1,30 @@
+{
+  "$schema": "../schema/plugin.schema.json",
+  "id": "ysfx",
+  "name": "YSFX",
+  "vendor": "Joep Vanlier",
+  "category": "utility",
+  "license": "Apache-2.0",
+  "open_source": true,
+  "homepage": "https://github.com/JoepVanlier/ysfx",
+  "description": "Run JSFX scripts as a plugin, outside REAPER.",
+  "about": "YSFX hosts JSFX, the scripting language of REAPER's built-in effects, so thousands of community scripts become usable in any DAW. Edit a script live and hear the change.\n\nThe upstream releases are marked pre-release, so the catalog allows them explicitly.",
+  "tags": ["jsfx", "scripting", "reaper", "host"],
+  "enabled": true,
+  "allow_prerelease": true,
+  "source": {
+    "github": "JoepVanlier/ysfx",
+    "asset_patterns": {
+      "win_x64": "YSFX\\.Windows\\.64-bit\\.VST3\\.zip",
+      "mac_universal": "YSFX\\.macOS\\.VST3\\.zip",
+      "linux_x64": "YSFX\\.Linux\\.64-bit\\.VST3\\.zip"
+    }
+  },
+  "install_strategy": "bundle_extract",
+  "silent_flags": null,
+  "auth_type": "none",
+  "auth": null,
+  "formats": ["vst3"],
+  "federated_feed_url": null,
+  "vendor_manifest_url": null
+}

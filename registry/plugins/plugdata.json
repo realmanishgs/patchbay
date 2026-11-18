@@ -1,0 +1,28 @@
+{
+  "$schema": "../schema/plugin.schema.json",
+  "id": "plugdata",
+  "name": "plugdata",
+  "vendor": "plugdata team",
+  "category": "utility",
+  "license": "GPL-3.0",
+  "open_source": true,
+  "homepage": "https://github.com/plugdata-team/plugdata",
+  "description": "Pure Data as a plugin, with a modern interface.",
+  "about": "Pure Data visual patching as a VST3, CLAP or AU plugin and a standalone app. Build synths, effects and generative tools by connecting objects, then use them in your DAW.",
+  "tags": ["pure-data", "patching", "generative", "visual"],
+  "enabled": true,
+  "source": {
+    "github": "plugdata-team/plugdata",
+    "asset_patterns": {
+      "win_x64": "plugdata-Win64\\.msi",
+      "mac_universal": "plugdata-macOS-Universal\\.pkg"
+    }
+  },
+  "install_strategy": "silent_installer",
+  "silent_flags": "/qn /norestart",
+  "auth_type": "none",
+  "auth": null,
+  "formats": ["vst3", "clap"],
+  "federated_feed_url": null,
+  "vendor_manifest_url": null
+}

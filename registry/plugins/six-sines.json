@@ -1,0 +1,31 @@
+{
+  "$schema": "../schema/plugin.schema.json",
+  "id": "six-sines",
+  "name": "Six Sines",
+  "vendor": "baconpaul",
+  "category": "synth",
+  "license": "MIT",
+  "open_source": true,
+  "homepage": "https://github.com/baconpaul/six-sines",
+  "description": "Six-operator sine-based FM synthesizer.",
+  "about": "A small, fast synth built from six sine operators that can modulate each other in any direction. Simple to learn and surprisingly deep for bells, basses and evolving pads.\n\nOnly a rolling Nightly release exists, so the version comes from the build date.",
+  "tags": ["fm", "synth", "sine", "nightly"],
+  "enabled": true,
+  "allow_prerelease": true,
+  "version_regex": "Windows-(?P<version>[0-9]{4}-[0-9]{2}-[0-9]{2})",
+  "source": {
+    "github": "baconpaul/six-sines",
+    "asset_patterns": {
+      "win_x64": "six-sines-Windows-[0-9-]+-[0-9a-f]+\\.zip",
+      "mac_universal": "six-sines-macOS-[0-9-]+-[0-9a-f]+\\.dmg",
+      "linux_x64": "six-sines-Linux-[0-9-]+-[0-9a-f]+\\.zip"
+    }
+  },
+  "install_strategy": "bundle_extract",
+  "silent_flags": null,
+  "auth_type": "none",
+  "auth": null,
+  "formats": ["vst3", "clap"],
+  "federated_feed_url": null,
+  "vendor_manifest_url": null
+}

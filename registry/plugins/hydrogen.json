@@ -1,0 +1,28 @@
+{
+  "$schema": "../schema/plugin.schema.json",
+  "id": "hydrogen",
+  "name": "Hydrogen",
+  "vendor": "Hydrogen team",
+  "category": "daw",
+  "license": "GPL-2.0-or-later",
+  "open_source": true,
+  "homepage": "https://github.com/hydrogen-music/hydrogen",
+  "description": "Advanced drum machine and pattern sequencer.",
+  "about": "A pattern-based drum machine with a song editor, humanisation and a large set of drum kits. It runs standalone and syncs with other software.",
+  "tags": ["drum-machine", "sequencer", "patterns"],
+  "enabled": true,
+  "source": {
+    "github": "hydrogen-music/hydrogen",
+    "asset_patterns": {
+      "win_x64": "Hydrogen-[0-9.]+-win64\\.exe"
+    }
+  },
+  "install_strategy": "silent_installer",
+  "silent_flags": "/S",
+  "auth_type": "none",
+  "auth": null,
+  "formats": [],
+  "federated_feed_url": null,
+  "vendor_manifest_url": null,
+  "notes": "Windows installer type verified by signature before choosing silent flags."
+}

@@ -1,0 +1,29 @@
+{
+  "$schema": "../schema/plugin.schema.json",
+  "id": "flexasio",
+  "name": "FlexASIO",
+  "vendor": "Etienne Dechamps",
+  "category": "utility",
+  "license": "See repository",
+  "open_source": true,
+  "homepage": "https://github.com/dechamps/FlexASIO",
+  "description": "Universal ASIO driver for low-latency audio on Windows.",
+  "about": "A driver that gives ASIO-only software access to WASAPI, DirectSound and other Windows audio paths. Useful for getting low latency without a dedicated audio interface.",
+  "tags": ["asio", "driver", "windows", "latency"],
+  "enabled": true,
+  "version_regex": "FlexASIO-(?P<version>[0-9.]+b?)\\.exe",
+  "source": {
+    "github": "dechamps/FlexASIO",
+    "asset_patterns": {
+      "win_x64": "FlexASIO-[0-9.]+b?\\.exe"
+    }
+  },
+  "install_strategy": "silent_installer",
+  "silent_flags": "/VERYSILENT /NORESTART /SUPPRESSMSGBOXES",
+  "auth_type": "none",
+  "auth": null,
+  "formats": [],
+  "federated_feed_url": null,
+  "vendor_manifest_url": null,
+  "notes": "Windows installer type verified by signature before choosing silent flags."
+}

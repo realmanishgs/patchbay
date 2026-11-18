@@ -1,0 +1,27 @@
+{
+  "$schema": "../schema/plugin.schema.json",
+  "id": "musescore",
+  "name": "MuseScore Studio",
+  "vendor": "MuseScore",
+  "category": "daw",
+  "license": "GPL-3.0",
+  "open_source": true,
+  "homepage": "https://github.com/musescore/MuseScore",
+  "description": "Music notation software with playback and VST support.",
+  "about": "Write, play back and print sheet music. MuseScore Studio supports VST3 instruments for playback and exports to PDF, MIDI and MusicXML.",
+  "tags": ["notation", "score", "midi"],
+  "enabled": true,
+  "source": {
+    "github": "musescore/MuseScore",
+    "asset_patterns": {
+      "win_x64": "MuseScore-Studio-[0-9.]+-x86_64\\.msi"
+    }
+  },
+  "install_strategy": "silent_installer",
+  "silent_flags": "/qn /norestart",
+  "auth_type": "none",
+  "auth": null,
+  "formats": [],
+  "federated_feed_url": null,
+  "vendor_manifest_url": null
+}
