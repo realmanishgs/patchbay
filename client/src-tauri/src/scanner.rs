@@ -10,7 +10,7 @@ use std::path::PathBuf;
 
 pub const SCAN_FLAG: &str = "first_scan_done";
 
-fn scan_dirs(db: &Db) -> Vec<PathBuf> {
+pub(crate) fn scan_dirs(db: &Db) -> Vec<PathBuf> {
     let mut dirs: Vec<PathBuf> = ["vst3", "clap", "au"]
         .iter()
         .filter_map(|format| target_dir(db, format).ok())

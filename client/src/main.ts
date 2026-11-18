@@ -9,6 +9,8 @@ import {
 } from "./api";
 import { fuzzyScore } from "./fuzzy";
 import { applyPlatformChrome, installNativeGuards } from "./native";
+import * as library from "./library";
+import { esc, fmtBytes } from "./util";
 
 interface Toast {
   text: string;
@@ -26,6 +28,7 @@ interface UiState {
   toast: Toast | null;
   checking: boolean;
   updatingAll: boolean;
+  mode: "gallery" | "library";
   detailId: string | null;
   preview: { id: string; url: string | null; loading: boolean; error: string | null } | null;
 }
@@ -41,6 +44,7 @@ const state: UiState = {
   toast: null,
   checking: false,
   updatingAll: false,
+  mode: "gallery",
   detailId: null,
   preview: null,
 };
@@ -51,26 +55,11 @@ const $ = <T extends HTMLElement>(id: string): T => {
   return el as T;
 };
 
-function esc(value: string): string {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
-}
-
 function platformKey(): "win_x64" | "mac_universal" | "linux_x64" {
   const ua = navigator.userAgent;
   if (/Windows/i.test(ua)) return "win_x64";
   if (/Macintosh|Mac OS/i.test(ua)) return "mac_universal";
   return "linux_x64";
-}
-
-function fmtBytes(n: number): string {
-  if (n < 1024) return `${n} B`;
-  if (n < 1024 * 1024) return `${(n / 1024).toFixed(0)} KB`;
-  return `${(n / (1024 * 1024)).toFixed(1)} MB`;
 }
 
 function fmtTime(unix: number | null): string {
@@ -108,6 +97,7 @@ function mountShell(): void {
           <span class="logo-dot"></span>
           <h1 class="text-[15px] font-semibold tracking-tight">Patchbay</h1>
         </div>
+        <div id="modes" class="flex gap-1"></div>
         <input id="search" type="search" autocomplete="off" spellcheck="false"
           placeholder="Search plugins" class="search min-w-0 flex-1 sm:max-w-xs" />
         <div class="ml-auto flex items-center gap-1">
@@ -115,6 +105,8 @@ function mountShell(): void {
           <button class="ghost-btn" data-action="settings">Settings</button>
         </div>
       </header>
+      <div id="banner" class="mt-5 empty:hidden"></div>
+      <div id="gallery-view">
       <nav class="mt-7 flex flex-wrap items-center gap-1.5">
         <div id="chips" class="flex flex-wrap gap-1.5"></div>
         <div class="ml-auto flex items-center gap-1">
@@ -131,16 +123,24 @@ function mountShell(): void {
           </select>
         </div>
       </nav>
-      <div id="banner" class="mt-5 empty:hidden"></div>
       <main id="grid" class="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3"></main>
       <footer id="status" class="mt-8 text-center text-xs text-zinc-600"></footer>
+      </div>
+      <section id="library-view" class="mt-7" hidden></section>
     </div>
+    <div id="confirm"></div>
     <div id="drawer"></div>
     <div id="modal"></div>`;
   renderChips();
+  renderModes();
 
   $<HTMLInputElement>("search").addEventListener("input", (e) => {
-    state.query = (e.target as HTMLInputElement).value;
+    const value = (e.target as HTMLInputElement).value;
+    if (state.mode === "library") {
+      library.setQuery(value);
+      return;
+    }
+    state.query = value;
     renderGrid();
   });
   const filters = [
@@ -152,6 +152,35 @@ function mountShell(): void {
       state[key] = (e.target as HTMLSelectElement).value;
       renderGrid();
     });
+  }
+}
+
+function renderModes(): void {
+  const modes: [UiState["mode"], string][] = [
+    ["gallery", "Gallery"],
+    ["library", "Library"],
+  ];
+  $("modes").innerHTML = modes
+    .map(
+      ([value, label]) =>
+        `<button class="chip" data-action="mode" data-value="${value}" aria-pressed="${state.mode === value}">${label}</button>`,
+    )
+    .join("");
+}
+
+function setMode(mode: UiState["mode"]): void {
+  if (state.mode === mode) return;
+  state.mode = mode;
+  if (state.detailId) closeDetail();
+  renderModes();
+  $("gallery-view").hidden = mode !== "gallery";
+  $("library-view").hidden = mode !== "library";
+  const search = $<HTMLInputElement>("search");
+  search.placeholder = mode === "library" ? "Filter installed plugins" : "Search plugins";
+  search.value = mode === "library" ? "" : state.query;
+  if (mode === "library") {
+    library.setQuery("");
+    library.ensureLoaded();
   }
 }
 
@@ -477,6 +506,8 @@ function settingsHtml(view: GalleryView): string {
             <input id="path-vst3" class="field w-full" value="${esc(view.paths.vst3)}" spellcheck="false" /></label>
           <label class="block space-y-1 text-sm"><span class="text-zinc-400">CLAP</span>
             <input id="path-clap" class="field w-full" value="${esc(view.paths.clap)}" spellcheck="false" /></label>
+          <label class="block space-y-1 text-sm"><span class="text-zinc-400">VST2 (.dll) — where imported plugins are gathered</span>
+            <input id="path-vst2" class="field w-full" value="${esc(view.paths.vst2)}" spellcheck="false" /></label>
           <label class="block space-y-1 text-sm"><span class="text-zinc-400">AU (macOS)</span>
             <input id="path-au" class="field w-full" value="${esc(view.paths.au)}" spellcheck="false" /></label>
           <div class="flex justify-end"><button class="btn btn-primary" data-action="save-paths">Save folders</button></div>
@@ -575,7 +606,7 @@ async function checkNow(): Promise<void> {
 async function savePaths(): Promise<void> {
   const value = (id: string) => $<HTMLInputElement>(id).value.trim();
   try {
-    await api.savePaths({ vst3: value("path-vst3"), clap: value("path-clap"), au: value("path-au") });
+    await api.savePaths({ vst3: value("path-vst3"), clap: value("path-clap"), au: value("path-au"), vst2: value("path-vst2") });
     toast("Install folders saved");
   } catch (e) {
     toast(String(e), true);
@@ -626,6 +657,9 @@ function bindEvents(): void {
     const el = (ev.target as HTMLElement).closest<HTMLElement>("[data-action]");
     if (!el) return;
     switch (el.dataset.action) {
+      case "mode":
+        setMode(el.dataset.value === "library" ? "library" : "gallery");
+        break;
       case "open":
         openDetail(el.dataset.id ?? "");
         break;
@@ -677,6 +711,7 @@ function bindEvents(): void {
 
   document.addEventListener("keydown", (ev) => {
     if (ev.key === "Escape") {
+      if (library.closeDialog()) return;
       if (state.settingsOpen) {
         state.settingsOpen = false;
         renderModal();
@@ -697,6 +732,12 @@ async function init(): Promise<void> {
   applyPlatformChrome();
   mountShell();
   bindEvents();
+  library.initLibrary({
+    toast,
+    reloadGallery: () => load(),
+    vst2Folder: () => state.view?.paths.vst2 ?? "",
+    isActive: () => state.mode === "library",
+  });
   await listen<Progress>("install-progress", (event) => {
     const { id, phase } = event.payload;
     // `done` and `error` are terminal; clearing here also covers updates started from the tray.

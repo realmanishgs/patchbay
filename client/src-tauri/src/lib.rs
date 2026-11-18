@@ -6,6 +6,7 @@
 mod catalog;
 mod db;
 mod installer;
+mod library;
 mod poller;
 mod scanner;
 
@@ -48,6 +49,7 @@ struct ScanPaths {
     vst3: String,
     clap: String,
     au: String,
+    vst2: String,
 }
 
 #[derive(Serialize)]
@@ -193,6 +195,7 @@ fn scan_paths(db: &Db) -> Result<ScanPaths, String> {
         vst3: show("vst3"),
         clap: show("clap"),
         au: show("au"),
+        vst2: show("vst2"),
     })
 }
 
@@ -265,9 +268,15 @@ async fn check_now(app: AppHandle) -> Result<usize, String> {
 }
 
 #[tauri::command]
-fn save_paths(app: AppHandle, vst3: String, clap: String, au: String) -> Result<(), String> {
+fn save_paths(
+    app: AppHandle,
+    vst3: String,
+    clap: String,
+    au: String,
+    vst2: String,
+) -> Result<(), String> {
     let state = app.state::<AppState>();
-    for (format, value) in [("vst3", vst3), ("clap", clap), ("au", au)] {
+    for (format, value) in [("vst3", vst3), ("clap", clap), ("au", au), ("vst2", vst2)] {
         let value = value.trim().to_string();
         if !value.is_empty() && !std::path::Path::new(&value).is_absolute() {
             return Err(format!("the {format} folder must be an absolute path"));
@@ -300,6 +309,78 @@ fn clear_vendor_key(app: AppHandle, key_name: String) -> Result<(), String> {
     validate_key_name(&key_name)?;
     db::delete_secret(&key_name)?;
     app.state::<AppState>().db.remove_vendor(&key_name)
+}
+
+/// Vendor of a catalog plugin, used only to narrow the search for its data folders.
+fn catalog_vendor(app: &AppHandle, managed_id: Option<String>) -> Option<String> {
+    let id = managed_id?;
+    let state = app.state::<AppState>();
+    let guard = state.catalog.lock().ok()?;
+    guard
+        .as_ref()?
+        .plugins
+        .iter()
+        .find(|p| p.id == id)
+        .map(|p| p.vendor.clone())
+}
+
+#[tauri::command]
+async fn list_library(app: AppHandle) -> Result<Vec<library::LibraryItem>, String> {
+    tauri::async_runtime::spawn_blocking(move || library::list_items(&app.state::<AppState>().db))
+        .await
+        .map_err(|e| e.to_string())?
+}
+
+#[tauri::command]
+async fn inspect_plugin(app: AppHandle, path: String) -> Result<library::Inspection, String> {
+    tauri::async_runtime::spawn_blocking(move || {
+        let db = &app.state::<AppState>().db;
+        let vendor = catalog_vendor(&app, library::managed_id(db, &path)?);
+        library::inspect(db, &path, vendor.as_deref())
+    })
+    .await
+    .map_err(|e| e.to_string())?
+}
+
+#[tauri::command]
+async fn remove_plugin(
+    app: AppHandle,
+    path: String,
+    leftovers: Vec<String>,
+    confirmed: bool,
+) -> Result<library::RemoveReport, String> {
+    tauri::async_runtime::spawn_blocking(move || {
+        let db = &app.state::<AppState>().db;
+        let vendor = catalog_vendor(&app, library::managed_id(db, &path)?);
+        let report = library::remove(db, &path, &leftovers, vendor.as_deref(), confirmed)?;
+        // The catalog view marks plugins installed from the database, so refresh the badge.
+        let _ = poller::refresh_badge(&app);
+        Ok(report)
+    })
+    .await
+    .map_err(|e| e.to_string())?
+}
+
+#[tauri::command]
+async fn run_vendor_uninstaller(
+    app: AppHandle,
+    path: String,
+    display_name: String,
+) -> Result<(), String> {
+    tauri::async_runtime::spawn_blocking(move || {
+        library::run_vendor_uninstaller(&app.state::<AppState>().db, &path, &display_name)
+    })
+    .await
+    .map_err(|e| e.to_string())?
+}
+
+#[tauri::command]
+async fn import_plugins(app: AppHandle, paths: Vec<String>) -> Result<library::ImportReport, String> {
+    tauri::async_runtime::spawn_blocking(move || {
+        library::import(&app.state::<AppState>().db, &paths)
+    })
+    .await
+    .map_err(|e| e.to_string())?
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
@@ -351,7 +432,12 @@ pub fn run() {
             check_now,
             save_paths,
             set_vendor_key,
-            clear_vendor_key
+            clear_vendor_key,
+            list_library,
+            inspect_plugin,
+            remove_plugin,
+            run_vendor_uninstaller,
+            import_plugins
         ])
         .build(tauri::generate_context!())
         .expect("error while building Patchbay")

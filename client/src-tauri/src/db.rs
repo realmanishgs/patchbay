@@ -172,6 +172,13 @@ impl Db {
         })
     }
 
+    pub fn delete_installed(&self, id: &str) -> Result<(), String> {
+        self.with(|c| {
+            c.execute("DELETE FROM installed_plugins WHERE id = ?1", [id])
+                .map(|_| ())
+        })
+    }
+
     pub fn get_setting(&self, key: &str) -> Result<Option<String>, String> {
         self.with(|c| {
             c.query_row(

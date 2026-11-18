@@ -57,7 +57,7 @@ export interface GalleryView {
   installed: InstalledPlugin[];
   updates: string[];
   last_checked: number | null;
-  paths: { vst3: string; clap: string; au: string };
+  paths: { vst3: string; clap: string; au: string; vst2: string };
   vendors: VendorView[];
 }
 
@@ -74,14 +74,52 @@ export interface UpdateOutcome {
   error: string | null;
 }
 
+export interface LibraryItem {
+  path: string;
+  name: string;
+  format: string;
+  size: number;
+  managed_id: string | null;
+}
+
+export interface Leftover {
+  path: string;
+  kind: "data" | "content" | string;
+  size: number;
+}
+
+export interface Inspection {
+  item: LibraryItem;
+  leftovers: Leftover[];
+  vendor_uninstallers: { display_name: string }[];
+}
+
+export interface RemoveReport {
+  removed: string[];
+  failed: { path: string; error: string }[];
+  freed: number;
+}
+
+export interface ImportReport {
+  imported: string[];
+  skipped: { path: string; reason: string }[];
+}
+
 export const api = {
   getGallery: () => invoke<GalleryView>("get_gallery"),
   install: (id: string) => invoke<InstalledPlugin>("install_plugin", { id }),
   updateAll: () => invoke<UpdateOutcome[]>("update_all"),
   checkNow: () => invoke<number>("check_now"),
-  savePaths: (paths: { vst3: string; clap: string; au: string }) =>
+  savePaths: (paths: { vst3: string; clap: string; au: string; vst2: string }) =>
     invoke<void>("save_paths", paths),
   setVendorKey: (keyName: string, authType: string, secret: string) =>
     invoke<void>("set_vendor_key", { keyName, authType, secret }),
   clearVendorKey: (keyName: string) => invoke<void>("clear_vendor_key", { keyName }),
+  listLibrary: () => invoke<LibraryItem[]>("list_library"),
+  inspectPlugin: (path: string) => invoke<Inspection>("inspect_plugin", { path }),
+  removePlugin: (path: string, leftovers: string[]) =>
+    invoke<RemoveReport>("remove_plugin", { path, leftovers, confirmed: true }),
+  runVendorUninstaller: (path: string, displayName: string) =>
+    invoke<void>("run_vendor_uninstaller", { path, displayName }),
+  importPlugins: (paths: string[]) => invoke<ImportReport>("import_plugins", { paths }),
 };

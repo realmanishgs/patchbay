@@ -103,6 +103,15 @@ pub fn default_dir(format: &str) -> Option<PathBuf> {
                 dirs::home_dir().map(|h| h.join(".clap"))
             }
         }
+        "vst2" => {
+            if cfg!(target_os = "windows") {
+                dirs::data_local_dir().map(|d| d.join("Patchbay").join("VSTPlugins"))
+            } else if cfg!(target_os = "macos") {
+                dirs::home_dir().map(|h| h.join("Library/Audio/Plug-Ins/VST"))
+            } else {
+                dirs::home_dir().map(|h| h.join(".vst"))
+            }
+        }
         "au" => {
             if cfg!(target_os = "macos") {
                 Some(PathBuf::from("/Library/Audio/Plug-Ins/Components"))
@@ -735,7 +744,7 @@ fn place_apps(root: &Path) -> Result<Placed, String> {
 /// Copies `src` into `dir` under a hidden staging name, then renames it into place.
 /// If the folder is protected (`PermissionDenied`), the same steps run once under a single
 /// native admin prompt instead of failing.
-fn place_bundle(src: &Path, dir: &Path) -> Result<PathBuf, String> {
+pub(crate) fn place_bundle(src: &Path, dir: &Path) -> Result<PathBuf, String> {
     let name: &OsStr = src.file_name().ok_or("bundle without a file name")?;
     match place_bundle_direct(src, dir, name) {
         Ok(path) => Ok(path),
@@ -872,7 +881,7 @@ fn copy_symlink(src: &Path, dst: &Path) -> io::Result<()> {
     fs::copy(src, dst).map(|_| ())
 }
 
-fn remove_path(path: &Path) -> io::Result<()> {
+pub(crate) fn remove_path(path: &Path) -> io::Result<()> {
     match fs::symlink_metadata(path) {
         Ok(meta) if meta.is_dir() => fs::remove_dir_all(path),
         Ok(_) => fs::remove_file(path),
@@ -905,7 +914,7 @@ fn run_installer(path: &Path, kind: Kind, flags: Option<&str>) -> Result<(), Str
     }
 }
 
-fn run_program(program: &str, args: &[String]) -> Result<(), String> {
+pub(crate) fn run_program(program: &str, args: &[String]) -> Result<(), String> {
     let mut cmd = Command::new(program);
     cmd.args(args);
     #[cfg(windows)]

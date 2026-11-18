@@ -119,6 +119,21 @@ html[data-platform="mac"] .drawer {
   }
 }
 
+.drop {
+  @apply flex flex-col items-center rounded-2xl border border-dashed border-white/10 px-6 py-8 text-center transition;
+}
+.drop-active {
+  @apply border-violet-400/60 bg-violet-500/5;
+}
+
+.row {
+  @apply flex items-center gap-3 rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-3;
+}
+
+.danger-btn {
+  @apply bg-red-600 text-white hover:bg-red-500;
+}
+
 .btn {
   @apply inline-flex items-center justify-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 disabled:cursor-not-allowed disabled:opacity-50;
 }
