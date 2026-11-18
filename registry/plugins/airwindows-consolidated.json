@@ -1,0 +1,31 @@
+{
+  "$schema": "../schema/plugin.schema.json",
+  "id": "airwindows-consolidated",
+  "name": "Airwindows Consolidated",
+  "vendor": "Airwindows (Paul Walker, baconpaul)",
+  "category": "effect",
+  "license": "MIT",
+  "open_source": true,
+  "homepage": "https://github.com/baconpaul/airwin2rack",
+  "description": "The full Airwindows effect collection in one plugin install.",
+  "notes": "Pinned to the DAWPlugin release tag, which publishes date-stamped builds (YYYY-MM-DD). The version is the build date, so an update is offered only when a newer date build appears. The Windows installer is Inno Setup (verified by signature).",
+  "enabled": true,
+  "allow_prerelease": true,
+  "release_tag": "DAWPlugin",
+  "version_regex": "AirwindowsConsolidated-(?P<version>\\d{4}-\\d{2}-\\d{2})-",
+  "source": {
+    "github": "baconpaul/airwin2rack",
+    "asset_patterns": {
+      "win_x64": "AirwindowsConsolidated-[0-9-]+-[0-9a-f]+-Windows-64bit-setup\\.exe",
+      "mac_universal": "airwindows-consolidated-macOS-[0-9-]+-[0-9a-f]+\\.dmg",
+      "linux_x64": "AirwindowsConsolidated-[0-9-]+-[0-9a-f]+-Linux\\.zip"
+    }
+  },
+  "install_strategy": "silent_installer",
+  "silent_flags": "/VERYSILENT /NORESTART /SUPPRESSMSGBOXES",
+  "auth_type": "none",
+  "auth": null,
+  "formats": ["vst3", "clap", "au"],
+  "federated_feed_url": null,
+  "vendor_manifest_url": null
+}

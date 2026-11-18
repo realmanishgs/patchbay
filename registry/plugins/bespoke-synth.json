@@ -1,0 +1,27 @@
+{
+  "$schema": "../schema/plugin.schema.json",
+  "id": "bespoke-synth",
+  "name": "Bespoke Synth",
+  "vendor": "BespokeSynth",
+  "category": "daw",
+  "license": "GPL-3.0-or-later",
+  "open_source": true,
+  "homepage": "https://github.com/BespokeSynth/BespokeSynth",
+  "description": "Modular, live-coding-friendly synthesis environment that can host plugins.",
+  "notes": "Standalone application, not a plugin bundle. Windows uses the MSI; macOS copies the .app into ~/Applications.",
+  "enabled": true,
+  "source": {
+    "github": "BespokeSynth/BespokeSynth",
+    "asset_patterns": {
+      "win_x64": "BespokeSynth-Windows-[0-9_]+\\.msi",
+      "mac_universal": "BespokeSynth-Mac-[0-9_]+\\.dmg"
+    }
+  },
+  "install_strategy": "silent_installer",
+  "silent_flags": "/qn /norestart",
+  "auth_type": "none",
+  "auth": null,
+  "formats": [],
+  "federated_feed_url": null,
+  "vendor_manifest_url": null
+}

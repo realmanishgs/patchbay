@@ -1,0 +1,27 @@
+{
+  "$schema": "../schema/plugin.schema.json",
+  "id": "ob-xd",
+  "name": "OB-Xd",
+  "vendor": "OB-Xd developers",
+  "category": "synth",
+  "license": "GPL-3.0-or-later",
+  "open_source": true,
+  "homepage": "https://github.com/reales/OB-Xd",
+  "description": "Open-source emulation of the Oberheim OB-X and OB-Xa polyphonic synthesizers.",
+  "notes": "Windows installer is Inno Setup (verified by signature). The macOS .pkg is run with administrator privileges through osascript.",
+  "enabled": true,
+  "source": {
+    "github": "reales/OB-Xd",
+    "asset_patterns": {
+      "win_x64": "Obxd[0-9]+\\.exe",
+      "mac_universal": "OB-Xd\\.[0-9.]+\\.pkg"
+    }
+  },
+  "install_strategy": "silent_installer",
+  "silent_flags": "/VERYSILENT /NORESTART /SUPPRESSMSGBOXES",
+  "auth_type": "none",
+  "auth": null,
+  "formats": ["vst3"],
+  "federated_feed_url": null,
+  "vendor_manifest_url": null
+}

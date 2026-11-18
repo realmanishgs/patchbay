@@ -1,0 +1,27 @@
+{
+  "$schema": "../schema/plugin.schema.json",
+  "id": "dragonfly-reverb",
+  "name": "Dragonfly Reverb",
+  "vendor": "Michael Willis",
+  "category": "effect",
+  "license": "GPL-3.0-or-later",
+  "open_source": true,
+  "homepage": "https://github.com/michaelwillis/dragonfly-reverb",
+  "description": "Hall, room and plate reverbs with a clean, efficient algorithm.",
+  "notes": null,
+  "enabled": true,
+  "source": {
+    "github": "michaelwillis/dragonfly-reverb",
+    "asset_patterns": {
+      "win_x64": "dragonfly-reverb-[0-9.]+-win64\\.zip",
+      "mac_universal": "dragonfly-reverb-[0-9.]+-macos-universal\\.dmg"
+    }
+  },
+  "install_strategy": "bundle_extract",
+  "silent_flags": null,
+  "auth_type": "none",
+  "auth": null,
+  "formats": ["vst3"],
+  "federated_feed_url": null,
+  "vendor_manifest_url": null
+}

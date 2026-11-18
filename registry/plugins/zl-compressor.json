@@ -1,0 +1,28 @@
+{
+  "$schema": "../schema/plugin.schema.json",
+  "id": "zl-compressor",
+  "name": "ZL Compressor",
+  "vendor": "ZL Audio",
+  "category": "effect",
+  "license": "AGPL-3.0",
+  "open_source": true,
+  "homepage": "https://github.com/ZL-Audio/ZLCompressor",
+  "description": "Multi-mode dynamics compressor.",
+  "notes": "Windows and macOS installers are used (MSI runs with msiexec /qn; the macOS build is the Intel x86-64 DMG, which also runs under Rosetta on Apple Silicon).",
+  "enabled": true,
+  "source": {
+    "github": "ZL-Audio/ZLCompressor",
+    "asset_patterns": {
+      "win_x64": "ZL\\.Compressor-[0-9.]+-Windows-x86-64\\.msi",
+      "mac_universal": "ZL\\.Compressor-[0-9.]+-macOS-x86-64\\.dmg",
+      "linux_x64": "ZL\\.Compressor-[0-9.]+-Linux-x86-64\\.zip"
+    }
+  },
+  "install_strategy": "silent_installer",
+  "silent_flags": "/qn /norestart",
+  "auth_type": "none",
+  "auth": null,
+  "formats": ["vst3", "clap"],
+  "federated_feed_url": null,
+  "vendor_manifest_url": null
+}

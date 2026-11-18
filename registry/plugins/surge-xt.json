@@ -1,0 +1,28 @@
+{
+  "$schema": "../schema/plugin.schema.json",
+  "id": "surge-xt",
+  "name": "Surge XT",
+  "vendor": "Surge Synth Team",
+  "category": "synth",
+  "license": "GPL-3.0-or-later",
+  "open_source": true,
+  "homepage": "https://surge-synthesizer.github.io/",
+  "description": "Open-source hybrid synthesizer: wavetable, FM, subtractive and granular engines.",
+  "notes": null,
+  "enabled": true,
+  "source": {
+    "github": "surge-synthesizer/releases-xt",
+    "asset_patterns": {
+      "win_x64": "surge-xt-win64-[0-9.]+-pluginsonly\\.zip",
+      "mac_universal": "surge-xt-macos-[0-9.]+-pluginsonly\\.zip",
+      "linux_x64": "surge-xt-linux-[0-9.]+-pluginsonly\\.tar\\.gz"
+    }
+  },
+  "install_strategy": "bundle_extract",
+  "silent_flags": null,
+  "auth_type": "none",
+  "auth": null,
+  "formats": ["vst3", "clap", "au"],
+  "federated_feed_url": null,
+  "vendor_manifest_url": null
+}

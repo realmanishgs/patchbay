@@ -1,0 +1,27 @@
+{
+  "$schema": "../schema/plugin.schema.json",
+  "id": "chow-tape-model",
+  "name": "Chow Tape Model",
+  "vendor": "ChowDSP",
+  "category": "effect",
+  "license": "GPL-3.0-or-later",
+  "open_source": true,
+  "homepage": "https://github.com/jatinchowdhury18/AnalogTapeModel",
+  "description": "Physical model of analog tape machine saturation, wow and flutter.",
+  "notes": "Windows installer is Inno Setup (verified by signature). The macOS DMG is mounted and its bundles copied.",
+  "enabled": true,
+  "source": {
+    "github": "jatinchowdhury18/AnalogTapeModel",
+    "asset_patterns": {
+      "win_x64": "ChowTapeModel-Win-64bit-[0-9.]+\\.exe",
+      "mac_universal": "ChowTapeModel-Mac-[0-9.]+\\.dmg"
+    }
+  },
+  "install_strategy": "silent_installer",
+  "silent_flags": "/VERYSILENT /NORESTART /SUPPRESSMSGBOXES",
+  "auth_type": "none",
+  "auth": null,
+  "formats": ["vst3", "clap", "au"],
+  "federated_feed_url": null,
+  "vendor_manifest_url": null
+}

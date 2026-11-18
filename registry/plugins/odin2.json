@@ -1,0 +1,30 @@
+{
+  "$schema": "../schema/plugin.schema.json",
+  "id": "odin2",
+  "name": "Odin 2",
+  "vendor": "The Wave Warden",
+  "category": "synth",
+  "license": "GPL-3.0-or-later",
+  "open_source": true,
+  "homepage": "https://github.com/TheWaveWarden/odin2",
+  "description": "Open-source virtual analog / modular-style synthesizer.",
+  "notes": "The only upstream release is tagged NightlyDevel and is not flagged as a pre-release, so allow_prerelease is set explicitly and the version is read from the asset name. Windows installer is Inno Setup (verified by signature).",
+  "enabled": true,
+  "allow_prerelease": true,
+  "version_regex": "Odin(?P<version>2\\.[0-9.]+)",
+  "source": {
+    "github": "TheWaveWarden/odin2",
+    "asset_patterns": {
+      "win_x64": "Odin2\\.[0-9.]+WinInstaller\\.exe",
+      "mac_universal": "Odin2\\.[0-9.]+MacInstaller\\.pkg",
+      "linux_x64": "Odin2\\.[0-9.]+Linux\\.zip"
+    }
+  },
+  "install_strategy": "silent_installer",
+  "silent_flags": "/VERYSILENT /NORESTART /SUPPRESSMSGBOXES",
+  "auth_type": "none",
+  "auth": null,
+  "formats": ["vst3", "clap"],
+  "federated_feed_url": null,
+  "vendor_manifest_url": null
+}

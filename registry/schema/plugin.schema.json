@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "VST Gallery plugin manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "name", "vendor", "category", "license", "open_source", "source", "install_strategy", "auth_type"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{1,62}$" },
+    "name": { "type": "string", "minLength": 1, "maxLength": 80 },
+    "vendor": { "type": "string", "minLength": 1, "maxLength": 80 },
+    "category": { "enum": ["synth", "effect", "sampler", "daw", "utility"] },
+    "license": { "type": "string", "minLength": 1, "maxLength": 60 },
+    "open_source": { "type": "boolean" },
+    "homepage": { "type": ["string", "null"], "format": "uri" },
+    "description": { "type": ["string", "null"], "maxLength": 300 },
+    "notes": { "type": ["string", "null"], "maxLength": 500 },
+    "enabled": { "type": "boolean", "default": true },
+    "allow_prerelease": { "type": "boolean", "default": false },
+    "version_regex": { "type": ["string", "null"], "maxLength": 200 },
+    "release_tag": { "type": ["string", "null"], "maxLength": 100, "pattern": "^[^/\\s]+$" },
+    "formats": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "enum": ["vst3", "clap", "au"] }
+    },
+    "source": {
+      "oneOf": [
+        { "type": "null" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["github", "asset_patterns"],
+          "properties": {
+            "github": { "type": "string", "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$" },
+            "asset_patterns": {
+              "type": "object",
+              "additionalProperties": false,
+              "minProperties": 1,
+              "properties": {
+                "win_x64": { "type": "string", "minLength": 1 },
+                "mac_universal": { "type": "string", "minLength": 1 },
+                "linux_x64": { "type": "string", "minLength": 1 }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "federated_feed_url": { "type": ["string", "null"], "format": "uri" },
+    "vendor_manifest_url": { "type": ["string", "null"], "format": "uri" },
+    "install_strategy": { "enum": ["bundle_extract", "silent_installer", "portable_app"] },
+    "silent_flags": { "type": ["string", "null"], "maxLength": 200 },
+    "auth_type": { "enum": ["none", "bearer_token", "license_key_header"] },
+    "auth": {
+      "oneOf": [
+        { "type": "null" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type"],
+          "properties": {
+            "type": { "enum": ["none", "bearer_token", "license_key_header"] },
+            "key_name": { "type": "string", "pattern": "^[a-z0-9._-]{1,64}$" },
+            "exchange_url": { "type": "string", "format": "uri" }
+          }
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "auth_type": { "enum": ["bearer_token", "license_key_header"] } }, "required": ["auth_type"] },
+      "then": { "required": ["auth"], "properties": { "auth": { "type": "object", "required": ["type", "key_name"] } } }
+    },
+    {
+      "if": { "properties": { "auth_type": { "const": "license_key_header" } }, "required": ["auth_type"] },
+      "then": { "properties": { "auth": { "required": ["exchange_url"] } } }
+    },
+    {
+      "if": { "properties": { "install_strategy": { "const": "silent_installer" } }, "required": ["install_strategy"] },
+      "then": { "required": ["silent_flags"] }
+    },
+    {
+      "if": { "properties": { "enabled": { "const": true } }, "required": ["enabled"] },
+      "then": { "properties": { "source": { "type": "object" } } }
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "identifier": "default",
+  "description": "Permissions for the gallery window. The tray runs without a window.",
+  "windows": ["gallery"],
+  "permissions": ["core:default"]
+}

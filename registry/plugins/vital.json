@@ -1,0 +1,21 @@
+{
+  "$schema": "../schema/plugin.schema.json",
+  "id": "vital",
+  "name": "Vital",
+  "vendor": "Vital Audio",
+  "category": "synth",
+  "license": "GPL-3.0-or-later",
+  "open_source": true,
+  "homepage": "https://vital.audio/",
+  "description": "Spectral warping wavetable synthesizer.",
+  "notes": "Disabled: compiled binaries are web-only and are not hosted on GitHub Releases (checked 2026-11-18). Add a vendor_manifest_url once a downloadable build is published.",
+  "enabled": false,
+  "source": null,
+  "install_strategy": "bundle_extract",
+  "silent_flags": null,
+  "auth_type": "none",
+  "auth": null,
+  "formats": ["vst3", "clap", "au"],
+  "federated_feed_url": null,
+  "vendor_manifest_url": null
+}
