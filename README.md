@@ -36,7 +36,7 @@ Prerequisites: Node 20+, Rust stable (MSVC on Windows), and the Tauri v2 system 
 Set the catalog URL at build time, for example:
 
 ```powershell
-$env:patchbay_INDEX_URL = "https://<your-user>.github.io/<your-repo>/index.min.json"
+$env:PATCHBAY_INDEX_URL = "https://<your-user>.github.io/<your-repo>/index.min.json"
 ```
 
 Without it, the app points at a reserved `.invalid` host and shows a "catalog request failed" message.

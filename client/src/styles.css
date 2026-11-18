@@ -6,8 +6,117 @@
   color-scheme: dark;
 }
 
+html,
+body {
+  overscroll-behavior: none;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
 body {
   background-color: #09090b;
+  /* Native app feel: no text selection or I-beam cursor outside real text fields. */
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: default;
+}
+
+input,
+textarea,
+[contenteditable="true"] {
+  -webkit-user-select: text;
+  user-select: text;
+  cursor: text;
+}
+
+label,
+h1,
+h2,
+h3 {
+  cursor: default;
+}
+
+/* macOS overlay title bar: keep content clear of the floating traffic lights. */
+html[data-platform="mac"] #app {
+  padding-top: 1.75rem;
+}
+
+/* Soft ambient glow behind the whole app; fixed so it costs nothing on scroll. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(60rem 28rem at 15% -10%, rgb(124 58 237 / 0.14), transparent 70%),
+    radial-gradient(40rem 24rem at 100% 0%, rgb(56 189 248 / 0.07), transparent 70%);
+}
+
+.logo-dot {
+  @apply h-2.5 w-2.5 rounded-full bg-violet-400;
+  box-shadow: 0 0 14px 2px rgb(167 139 250 / 0.6);
+}
+
+.search {
+  @apply rounded-full border border-white/10 bg-white/[0.03] px-4 py-1.5 text-sm text-zinc-100 placeholder-zinc-600 transition focus:border-violet-400/60 focus:bg-white/[0.05] focus:outline-none;
+}
+
+.ghost-btn {
+  @apply rounded-full px-3 py-1.5 text-xs text-zinc-400 transition hover:bg-white/5 hover:text-zinc-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 disabled:opacity-50;
+}
+
+.chip {
+  @apply rounded-full border border-transparent px-3 py-1 text-xs text-zinc-500 transition hover:text-zinc-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500;
+}
+.chip[aria-pressed="true"] {
+  @apply border-white/10 bg-white/[0.07] text-zinc-100;
+}
+
+.mini-select {
+  @apply cursor-pointer rounded-full border-none bg-transparent px-2 py-1 text-xs text-zinc-500 transition hover:text-zinc-200 focus:outline-none;
+}
+.mini-select option {
+  background: #18181b;
+  color: #e4e4e7;
+}
+
+.card {
+  @apply cursor-pointer rounded-2xl border border-white/[0.06] bg-white/[0.025] p-4 transition duration-200 hover:-translate-y-0.5 hover:border-violet-400/30 hover:bg-white/[0.04] focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500;
+}
+
+.status-dot {
+  @apply mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full;
+}
+
+.tag {
+  @apply rounded-full bg-white/[0.05] px-2.5 py-0.5 text-[11px] text-zinc-400;
+}
+
+.drawer {
+  @apply fixed inset-y-0 right-0 z-50 w-full max-w-md overflow-y-auto border-l border-white/[0.06] bg-zinc-950 p-6 shadow-2xl;
+  animation: slide-in 160ms ease-out;
+}
+html[data-platform="mac"] .drawer {
+  padding-top: 2.75rem;
+}
+
+.preview-box {
+  @apply flex h-32 w-full flex-col items-center justify-center gap-1 rounded-xl border border-dashed border-white/10 text-sm text-zinc-400 transition;
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateX(1.5rem);
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .drawer {
+    animation: none;
+  }
+  .card {
+    transition: none;
+  }
 }
 
 .btn {

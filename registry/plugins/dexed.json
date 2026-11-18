@@ -8,6 +8,8 @@
   "open_source": true,
   "homepage": "https://github.com/asb2m10/dexed",
   "description": "Faithful open-source emulation of the Yamaha DX7 FM synthesizer.",
+  "about": "A faithful emulation of the Yamaha DX7 six-operator FM synthesizer. It loads original DX7 SysEx patches, so decades of classic presets work as-is.\n\nBased on the MSFA engine from Google's Music Synthesizer for Android.",
+  "tags": ["fm", "dx7", "classic", "sysex"],
   "notes": null,
   "enabled": true,
   "source": {

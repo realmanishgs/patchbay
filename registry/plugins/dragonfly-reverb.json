@@ -8,6 +8,9 @@
   "open_source": true,
   "homepage": "https://github.com/michaelwillis/dragonfly-reverb",
   "description": "Hall, room and plate reverbs with a clean, efficient algorithm.",
+  "about": "A small set of free reverbs: Hall, Room, Plate and Early Reflections. Each has a deliberately short list of controls and a clean, efficient algorithm.\n\nA good default reverb that stays light on CPU.",
+  "tags": ["reverb", "hall", "plate", "room"],
+  "screenshot": "https://raw.githubusercontent.com/michaelwillis/dragonfly-reverb/master/collage.png",
   "notes": null,
   "enabled": true,
   "source": {

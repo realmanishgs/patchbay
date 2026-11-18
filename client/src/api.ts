@@ -23,6 +23,9 @@ export interface PluginEntry {
   open_source: boolean;
   homepage: string | null;
   description: string | null;
+  about: string | null;
+  tags: string[];
+  screenshot: string | null;
   install_strategy: string;
   silent_flags: string | null;
   auth_type: string;

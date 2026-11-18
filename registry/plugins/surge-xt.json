@@ -8,6 +8,8 @@
   "open_source": true,
   "homepage": "https://surge-synthesizer.github.io/",
   "description": "Open-source hybrid synthesizer: wavetable, FM, subtractive and granular engines.",
+  "about": "A hybrid synthesizer with wavetable, FM, subtractive, granular and physical-modelling oscillators, a deep modulation system and a large effects rack. It also includes a companion effects-only plugin.\n\nOne of the most actively developed open-source synths, with a big preset library.",
+  "tags": ["synth", "wavetable", "fm", "modulation"],
   "notes": null,
   "enabled": true,
   "source": {

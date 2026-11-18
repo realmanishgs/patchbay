@@ -8,6 +8,8 @@
   "open_source": true,
   "homepage": "https://github.com/ZL-Audio/ZLCompressor",
   "description": "Multi-mode dynamics compressor.",
+  "about": "A multi-mode dynamics compressor with clean and vintage styles, a sidechain filter, and a clear level meter that shows gain reduction over time.\n\nReleased under AGPL-3.0 by ZL Audio.",
+  "tags": ["compressor", "dynamics", "sidechain"],
   "notes": "Windows and macOS installers are used (MSI runs with msiexec /qn; the macOS build is the Intel x86-64 DMG, which also runs under Rosetta on Apple Silicon).",
   "enabled": true,
   "source": {

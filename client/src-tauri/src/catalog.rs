@@ -47,6 +47,12 @@ pub struct PluginEntry {
     pub homepage: Option<String>,
     #[serde(default)]
     pub description: Option<String>,
+    #[serde(default)]
+    pub about: Option<String>,
+    #[serde(default)]
+    pub tags: Vec<String>,
+    #[serde(default)]
+    pub screenshot: Option<String>,
     pub install_strategy: String,
     #[serde(default)]
     pub silent_flags: Option<String>,

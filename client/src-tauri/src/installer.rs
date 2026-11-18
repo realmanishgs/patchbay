@@ -274,8 +274,25 @@ fn key_name(entry: &PluginEntry) -> Result<String, String> {
         .ok_or_else(|| format!("{} has no key_name in its auth block", entry.name))
 }
 
-/// Install one plugin by catalog id. Emits `install-progress` events while it runs.
+/// Install one plugin by catalog id. Emits `install-progress` events while it runs, ending with
+/// a `done` or `error` phase so every UI (window or tray-triggered) can clear its progress state.
 pub async fn install(app: &AppHandle, id: &str) -> Result<InstalledPlugin, String> {
+    let result = install_inner(app, id).await;
+    if result.is_err() {
+        let _ = app.emit(
+            PROGRESS_EVENT,
+            Progress {
+                id: id.to_string(),
+                phase: "error".to_string(),
+                received: 0,
+                total: None,
+            },
+        );
+    }
+    result
+}
+
+async fn install_inner(app: &AppHandle, id: &str) -> Result<InstalledPlugin, String> {
     let state = app.state::<AppState>();
     let _busy = BusyGuard::acquire(&state.busy, id)?;
     let entry = find_entry(&state, id).await?;
@@ -344,8 +361,10 @@ pub async fn install(app: &AppHandle, id: &str) -> Result<InstalledPlugin, Strin
         }
     }
 
-    // Replace the previous version only after the new one is in place.
-    if let Some(prev) = &previous {
+    // Replace the previous version only after the new one is in place. Vendor installers report
+    // no paths and write to their own locations, so nothing may be deleted in that case: the old
+    // recorded path is usually the very file the installer just replaced.
+    if let (Some(prev), false) = (&previous, paths.is_empty()) {
         for old in prev.install_path.split(';').filter(|p| !p.is_empty()) {
             if !paths.iter().any(|p| p == old) {
                 let _ = remove_path(Path::new(old));
@@ -572,7 +591,11 @@ fn extract_zip(src: &Path, dest: &Path) -> Result<(), String> {
         if entry.is_symlink() {
             let mut target = String::new();
             entry.read_to_string(&mut target).map_err(io_msg)?;
-            make_symlink(Path::new(target.trim()), &out)?;
+            let link_target = Path::new(target.trim());
+            if !symlink_stays_inside(dest, &out, link_target) {
+                return Err("zip contains a symlink that points outside the archive".to_string());
+            }
+            make_symlink(link_target, &out)?;
             continue;
         }
         let mut file = fs::File::create(&out).map_err(io_msg)?;
@@ -580,6 +603,32 @@ fn extract_zip(src: &Path, dest: &Path) -> Result<(), String> {
         apply_mode(&out, entry.unix_mode())?;
     }
     Ok(())
+}
+
+/// Lexical check that a relative symlink target never climbs above the extraction root, which
+/// would let a later archive entry be written outside it through the link.
+fn symlink_stays_inside(root: &Path, link: &Path, target: &Path) -> bool {
+    use std::path::Component;
+    if target.is_absolute() {
+        return false;
+    }
+    let Some(parent) = link.parent().and_then(|p| p.strip_prefix(root).ok()) else {
+        return false;
+    };
+    let mut depth = parent.components().count() as i64;
+    for part in target.components() {
+        match part {
+            Component::ParentDir => {
+                depth -= 1;
+                if depth < 0 {
+                    return false;
+                }
+            }
+            Component::Normal(_) => depth += 1,
+            _ => {}
+        }
+    }
+    true
 }
 
 fn extract_tar_gz(src: &Path, dest: &Path) -> Result<(), String> {
@@ -698,7 +747,7 @@ fn place_bundle(src: &Path, dir: &Path) -> Result<PathBuf, String> {
 fn staging_name(name: &OsStr) -> OsString {
     let mut staging = OsString::from(".");
     staging.push(name);
-    staging.push(".vstgallery-new");
+    staging.push(".patchbay-new");
     staging
 }
 
@@ -878,9 +927,17 @@ fn run_program(program: &str, args: &[String]) -> Result<(), String> {
 fn run_elevated(program: &str, args: &[String]) -> Result<(), String> {
     use std::os::windows::process::CommandExt;
     let quote = |s: &str| format!("'{}'", s.replace('\'', "''"));
+    // Start-Process joins array items with spaces and does not quote them, so items that contain
+    // whitespace (the temp path of the downloaded MSI, for one) need their own double quotes.
     let arg_list = args
         .iter()
-        .map(|a| quote(a))
+        .map(|a| {
+            if a.contains(char::is_whitespace) {
+                quote(&format!("\"{a}\""))
+            } else {
+                quote(a)
+            }
+        })
         .collect::<Vec<_>>()
         .join(",");
     let script = format!(

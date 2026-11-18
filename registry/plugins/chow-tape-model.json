@@ -8,6 +8,8 @@
   "open_source": true,
   "homepage": "https://github.com/jatinchowdhury18/AnalogTapeModel",
   "description": "Physical model of analog tape machine saturation, wow and flutter.",
+  "about": "A physical model of analog tape machines. It reproduces saturation, hysteresis, wow and flutter, and head-bump filtering, for anything from subtle warmth to broken-tape lo-fi.\n\nThe model is derived from published research and measurements of real hardware.",
+  "tags": ["tape", "saturation", "lo-fi", "modelling"],
   "notes": "Windows installer is Inno Setup (verified by signature). The macOS DMG is mounted and its bundles copied.",
   "enabled": true,
   "source": {

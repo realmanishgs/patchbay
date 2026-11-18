@@ -8,6 +8,8 @@
   "open_source": true,
   "homepage": "https://github.com/reales/OB-Xd",
   "description": "Open-source emulation of the Oberheim OB-X and OB-Xa polyphonic synthesizers.",
+  "about": "An emulation of the Oberheim OB-X, OB-Xa and OB-8 polyphonic analog synthesizers, with the warm detuned voice character those instruments are known for.\n\nOpen source, with a large community preset library.",
+  "tags": ["analog", "poly", "oberheim", "classic"],
   "notes": "Windows installer is Inno Setup (verified by signature). The macOS .pkg is run with administrator privileges through osascript.",
   "enabled": true,
   "source": {

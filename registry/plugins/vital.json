@@ -8,6 +8,8 @@
   "open_source": true,
   "homepage": "https://vital.audio/",
   "description": "Spectral warping wavetable synthesizer.",
+  "about": "A spectral-warping wavetable synthesizer with an interactive visual interface. Modulations are drawn by dragging, and the wavetable editor can create waves from text or audio.\n\nDisabled in this catalog because downloads are only available through the vendor's website.",
+  "tags": ["wavetable", "synth", "spectral"],
   "notes": "Disabled: compiled binaries are web-only and are not hosted on GitHub Releases (checked 2026-11-18). Add a vendor_manifest_url once a downloadable build is published.",
   "enabled": false,
   "source": null,

@@ -8,6 +8,9 @@
   "open_source": true,
   "homepage": "https://github.com/Chowdhury-DSP/BYOD",
   "description": "Build Your Own Distortion: circuit-modelled guitar and effects processor.",
+  "about": "Build Your Own Distortion is a modular guitar and effects processor. Chain circuit-modelled distortion, tone-shaping and dynamics blocks into custom signal paths, including parallel and multi-band routing.\n\nFree and open source from Chowdhury DSP.",
+  "tags": ["distortion", "guitar", "modular", "circuit-modelling"],
+  "screenshot": "https://raw.githubusercontent.com/Chowdhury-DSP/BYOD/main/manual/screenshots/full_gui.png",
   "notes": "Windows installer is Inno Setup (verified by signature). The macOS DMG is handled by mounting it and copying any bundles, or running a .pkg if one is present.",
   "enabled": true,
   "source": {

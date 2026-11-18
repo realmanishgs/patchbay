@@ -8,6 +8,9 @@
   "open_source": true,
   "homepage": "https://github.com/BespokeSynth/BespokeSynth",
   "description": "Modular, live-coding-friendly synthesis environment that can host plugins.",
+  "about": "A software modular synthesizer built around live-patching. Wire together oscillators, sequencers, effects and Python scripts while the music plays, then host VST plugins inside the patch.\n\nIt runs as a standalone app, so it works well as a sketchpad or live instrument.",
+  "tags": ["modular", "live-coding", "host", "standalone"],
+  "screenshot": "https://raw.githubusercontent.com/BespokeSynth/BespokeSynth/main/screenshot-1.png",
   "notes": "Standalone application, not a plugin bundle. Windows uses the MSI; macOS copies the .app into ~/Applications.",
   "enabled": true,
   "source": {

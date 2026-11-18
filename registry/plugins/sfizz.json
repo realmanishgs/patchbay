@@ -8,6 +8,8 @@
   "open_source": true,
   "homepage": "https://github.com/sfztools/sfizz",
   "description": "Open-source SFZ sampler engine with VST3, CLAP and AU plugin builds.",
+  "about": "An SFZ sampler engine. It plays SFZ instruments — a text-based sample-mapping format — with low overhead, and ships as VST3, CLAP and AU plugins.\n\nGood for drums, pianos and any large sample library in SFZ format.",
+  "tags": ["sampler", "sfz", "instrument"],
   "notes": null,
   "enabled": true,
   "source": {

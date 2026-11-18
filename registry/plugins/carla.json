@@ -8,6 +8,8 @@
   "open_source": true,
   "homepage": "https://github.com/falkTX/Carla",
   "description": "Rack-style plugin host for VST2/VST3, CLAP, LV2 and more.",
+  "about": "A fully featured audio plugin host. Load VST2, VST3, CLAP, LV2 and more into a patchbay-style rack, route them freely and use it standalone or as a plugin inside another host.\n\nUseful for running plugins a DAW will not load natively.",
+  "tags": ["host", "patchbay", "rack", "linux"],
   "notes": "Portable application: extracted to a user folder, not a plugin bundle.",
   "enabled": true,
   "source": {

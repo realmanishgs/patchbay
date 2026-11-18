@@ -8,6 +8,8 @@
   "open_source": true,
   "homepage": "https://github.com/trummerschlunk/master_me",
   "description": "Automatic mastering processor with loudness-targeted limiting.",
+  "about": "An automatic mastering plugin. It combines levelling, compression, de-essing and a limiter, aiming at a target loudness with minimal setup.\n\nDesigned for podcasts, streaming and quick music masters.",
+  "tags": ["mastering", "limiter", "loudness", "podcast"],
   "notes": null,
   "enabled": true,
   "source": {

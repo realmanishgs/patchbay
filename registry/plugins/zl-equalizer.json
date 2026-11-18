@@ -8,6 +8,8 @@
   "open_source": true,
   "homepage": "https://github.com/ZL-Audio/ZLEqualizer",
   "description": "Linear-phase-capable parametric equalizer.",
+  "about": "A parametric equalizer with up to 16 bands, selectable minimum-phase, linear-phase and mixed-phase modes, dynamic bands and a built-in spectrum analyser.\n\nReleased under AGPL-3.0 by ZL Audio.",
+  "tags": ["eq", "linear-phase", "dynamic", "analyser"],
   "notes": "Windows and macOS installers are used (MSI runs with msiexec /qn; the macOS build is the Intel x86-64 DMG, which also runs under Rosetta on Apple Silicon).",
   "enabled": true,
   "source": {

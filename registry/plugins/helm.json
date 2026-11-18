@@ -8,6 +8,8 @@
   "open_source": true,
   "homepage": "https://github.com/mtytel/helm",
   "description": "Open-source polyphonic synthesizer with a polyphonic modulation engine.",
+  "about": "A polyphonic synthesizer with a flexible modulation system and a stack of oscillators, filters and effects. It was an early open-source synth for plugin hosts.\n\nDisabled in this catalog because upstream only publishes downloads on its website.",
+  "tags": ["synth", "poly", "modulation"],
   "notes": "Disabled: compiled binaries are web-only and are not hosted on GitHub Releases (checked 2026-11-18). Add a vendor_manifest_url once a downloadable build is published.",
   "enabled": false,
   "source": null,
